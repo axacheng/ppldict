@@ -4,14 +4,14 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /
+- url: /stylesheet
+  static_dir: stylesheet
+
+- url: /.*
   script: home.py
 
 - url: /index\.html
   script: home.py
-
-- url: /stylesheets
-  static_dir: stylesheets
 
 - url: /(.*\.(gif|png|jpg))
   static_files: static/\1
