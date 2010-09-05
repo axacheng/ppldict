@@ -4,13 +4,10 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /ui
-  static_dir: ui
+- url: /stylesheet
+  static_dir: stylesheet
 
 - url: /.*
-  script: home.py
-
-- url: /index\.html
   script: home.py
 
 #- url: /(.*\.(gif|png|jpg))

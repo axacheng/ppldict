@@ -23,7 +23,7 @@ class MainPage(webapp.RequestHandler):
             url_text = 'Login'
         
         template_dict = {'show_username':show_username, 'url_text':url_text,}
-        path = os.path.join(os.path.dirname(__file__), 'ui/index.html')
+        path = os.path.join(os.path.dirname(__file__), 'index.html')
         self.response.out.write(template.render(path, template_dict))
 
 
