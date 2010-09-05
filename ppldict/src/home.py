@@ -3,10 +3,13 @@ Created on Sep 4, 2010
 
 @author: axa
 '''
+import db_entity
 import os
+
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+from google.appengine.ext.webapp.util import login_required
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 
@@ -31,11 +34,42 @@ class Search(webapp.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/plain'
         self.response.out.write('Hello, It\'s search')
-
-
+     
+        
+class Add(webapp.RequestHandler):
+    @login_required
+    def get(self):
+        self.response.out.write(template.render('add.html',''))
+        
+    def post(self):
+        login_user = users.get_current_user()
+        if login_user:
+            creator = self.request.get("username")
+            word = self.request.get("word")
+            define = self.request.get("define")
+            example = self.request.get("example")
+            tags = self.request.get("tag").split(',')
+            new_tags = map(lambda x:x.strip(), tags)
+            try:
+                create_entity = db_entity.Words(key_name='w',
+                                                Creator=creator,
+                                                Word=word,
+                                                Define=define,
+                                                Example=example,
+                                                Tag=new_tags)
+                create_entity.put()
+                self.response.out.write('增加成功')
+            except ValueError:
+                self.response.out.write("""Oops....資料庫似乎爛了""")
+        else:
+            self.redirect(users.create_login_url(self.request.uri))
+                
+                
+                
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
-                                      ('/search', Search)],
+                                      ('/search', Search),
+                                      ('/add', Add)],
                                      debug=True)
 
 def main():

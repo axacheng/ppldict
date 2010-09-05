@@ -1,0 +1,36 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<title>加新字</title>
+<body>
+<div id="add_main">
+	<form action=/add id="add_form" method="post">
+		<table>
+			<tbody>
+				<tr>
+					<th style="font: bold 64px Arial">新字:</th>
+					<td><input id="word", name="word" style="font: bold 64px Arial" type="text"></td>
+				</tr>
+				<tr>
+					<th>解釋:</th>
+					<td><textarea id="define", name="define" rows="10" cols="50" type="text"></textarea></td>
+				</tr>				
+				<tr>
+					<th>造句:</th>
+					<td><textarea id="example", name="example" rows="10" cols="50" size="60" type="text"></textarea></td>
+				</tr>			
+				<tr>
+					<th>標籤:</th>
+					<td><input id="tag", name="tag" size="30" type="text"></td>
+				</tr>	
+			</tbody>
+		</table>
+		
+		<div id="submit">
+			<input name="submit" value="送出新字" type="submit">
+		</div>
+	</form>
+</div>
+</body>
+</html>
