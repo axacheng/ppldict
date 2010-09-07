@@ -29,7 +29,6 @@ class MainPage(webapp.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), 'index.html')
         self.response.out.write(template.render(path, template_dict))
 
-
 class Search(webapp.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/plain'
@@ -44,7 +43,7 @@ class Add(webapp.RequestHandler):
     def post(self):
         login_user = users.get_current_user()
         if login_user:
-            creator = self.request.get("username")
+            creator = login_user.nickname()
             word = self.request.get("word")
             define = self.request.get("define")
             example = self.request.get("example")
@@ -63,7 +62,6 @@ class Add(webapp.RequestHandler):
                 self.response.out.write("""Oops....資料庫似乎爛了""")
         else:
             self.redirect(users.create_login_url(self.request.uri))
-                
                 
                 
 application = webapp.WSGIApplication(
