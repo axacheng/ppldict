@@ -6,6 +6,7 @@ Created on Sep 4, 2010
 import db_entity
 import os
 
+from django.utils import simplejson
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
@@ -41,6 +42,7 @@ class Add(webapp.RequestHandler):
         self.response.out.write(template.render('add.html',''))
         
     def post(self):
+        #self.response.out.write('Hello World')
         login_user = users.get_current_user()
         if login_user:
             creator = login_user.nickname()
@@ -50,16 +52,19 @@ class Add(webapp.RequestHandler):
             tags = self.request.get("tag").split(',')
             new_tags = map(lambda x:x.strip(), tags)
             try:
-                create_entity = db_entity.Words(key_name='w',
+                create_entity = db_entity.Words(key_name='w3',
                                                 Creator=creator,
                                                 Word=word,
                                                 Define=define,
                                                 Example=example,
                                                 Tag=new_tags)
                 create_entity.put()
-                self.response.out.write('增加成功')
+                #response = {'status':'success', 'message':'新字增加好了'}
+                response = {'status':'success', 'message':'wahaha'}
+                self.response.out.write(simplejson.dumps(response))
             except ValueError:
-                self.response.out.write("""Oops....資料庫似乎爛了""")
+                response = {'status':'error', 'message':'Oops爛了'}
+                self.response.out.write(simplejson.dumps(response))
         else:
             self.redirect(users.create_login_url(self.request.uri))
                 
