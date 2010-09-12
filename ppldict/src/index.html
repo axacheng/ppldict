@@ -1,8 +1,10 @@
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link type="text/css" rel="stylesheet" href="/stylesheet/main.css" >
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+	<script type="text/javascript" src="/stylesheet/add.js"></script>
 </head>
-
 
 <body>
 <p align="right">
@@ -14,19 +16,43 @@
 	<div><button style="font: bold 64px Arial">Search</button></div>
 </form>
 
-
 <p align="left">
 	<a href="{{ show_username }}"> {{ url_text }} </a> &nbsp; &nbsp;
-	<a href="/add">Add</a> &nbsp; &nbsp;
-	<a href="/top10">Top10</a> &nbsp; &nbsp;
+	<span class="toggle"><a id="add_link" href="#">Add</a></span> &nbsp; &nbsp;
+	<a id="top10_link" href="/top10">Top10</a> &nbsp; &nbsp;
 </p>
 
-
-
-
-
-
-
+<div id="add_main">
+  <form action="/add" id="add_form" method="post" >
+    <table>
+      <tbody>
+        <tr>
+          <th style="font: bold 64px Arial">新字:</th>
+          <td><input id="word", name="word" style="font: bold 64px Arial" type="text"></td>
+        </tr>
+        <tr>
+          <th>解釋:</th>
+          <td><textarea id="define", name="define" rows="10" cols="50" type="text"></textarea></td>
+        </tr>       
+        <tr>
+          <th>造句:</th>
+          <td><textarea id="example", name="example" rows="10" cols="50" size="60" type="text"></textarea></td>
+        </tr>     
+        <tr>
+          <th>標籤:</th>
+          <td><input id="tag", name="tag" size="30" type="text"></td>
+        </tr> 
+      </tbody>
+    </table>
+ 
+    <div id="submit">
+      <input name="submit" value="送出新字" class="add_word" type="submit">
+    </div>
+    
+    <!-- Submit result shows up here. -->
+    <div id="submit_result"></div>
+  </form>
+</div>
 
 </body>
 </html>

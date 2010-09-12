@@ -2,3 +2,7 @@ body {
   font-family: Verdana, Helvetica, sans-serif;
   background-color: #00AAEE;
 }
+	
+	.hiddenDiv{
+		display:none;
+	}
