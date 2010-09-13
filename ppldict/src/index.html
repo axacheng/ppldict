@@ -17,8 +17,9 @@
 </form>
 
 <p align="left">
-	<a href="{{ url_link }}"> {{ url_text }} </a> &nbsp; &nbsp;
-	<span class="toggle"><a id="add_link" href="#">Add</a></span> &nbsp; &nbsp;
+	{% if login_status %}
+	   <span class="toggle"><a id="add_link" href="#">加新字</a></span> &nbsp; &nbsp;
+	{% endif %}
 	<a id="top10_link" href="/top10">Top10</a> &nbsp; &nbsp;
 </p>
 

@@ -19,16 +19,18 @@ class MainPage(webapp.RequestHandler):
     def get(self):
         username = users.get_current_user()
         if username:
-            users.create_logout_url(self.request.uri)
-            show_username = username
-            url_text = 'Logout'
+            url_link = users.create_logout_url(self.request.path)
+            url_text = '登出'
+            login_status = True
         else:
             url_link = users.create_login_url(self.request.path)
-            url_text = 'Login'
+            url_text = '先登入才能增加新字'
+            login_status = None
         
-        template_dict = {'url_link':url_link, 'url_text':url_text,}
+        template_dict = {'url_link':url_link, 'url_text':url_text,
+                         'login_status':login_status,}
         path = os.path.join(os.path.dirname(__file__), 'index.html')
-        self.response.out.write(template_dict)
+        #self.response.out.write(template_dict)
         self.response.out.write(template.render(path, template_dict))
 
 class Search(webapp.RequestHandler):
