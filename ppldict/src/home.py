@@ -23,12 +23,12 @@ class MainPage(webapp.RequestHandler):
             show_username = username
             url_text = 'Logout'
         else:
-            users.create_login_url(self.request.uri)
-            show_username = username
+            url_link = users.create_login_url(self.request.path)
             url_text = 'Login'
         
-        template_dict = {'show_username':show_username, 'url_text':url_text,}
+        template_dict = {'url_link':url_link, 'url_text':url_text,}
         path = os.path.join(os.path.dirname(__file__), 'index.html')
+        self.response.out.write(template_dict)
         self.response.out.write(template.render(path, template_dict))
 
 class Search(webapp.RequestHandler):
