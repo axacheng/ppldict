@@ -1,0 +1,15 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link type="text/css" rel="stylesheet" href="/stylesheet/main.css" >
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+</head>
+<body>
+  {% if query %}
+	   {% for list_query in query %}
+		    Key : <div class="id"> {{ list_query.key }}</div>
+        Word : <div class="word"> {{ list_query.Word }}</div>
+		 {% endfor %}
+	{% endif %}
+</body>
+</html>
