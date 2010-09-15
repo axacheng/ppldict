@@ -6,9 +6,11 @@ Created on Sep 4, 2010
 '''
 import db_entity
 import os
+import subprocess
 
 from django.utils import simplejson
 from google.appengine.api import users
+from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import login_required
@@ -17,6 +19,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 class MainPage(webapp.RequestHandler):
     def get(self):
+        # Show home page and check if user login or not.
         username = users.get_current_user()
         if username:
             url_link = users.create_logout_url(self.request.path)
@@ -30,8 +33,13 @@ class MainPage(webapp.RequestHandler):
         template_dict = {'url_link':url_link, 'url_text':url_text,
                          'login_status':login_status,}
         path = os.path.join(os.path.dirname(__file__), 'index.html')
-        #self.response.out.write(template_dict)
         self.response.out.write(template.render(path, template_dict))
+        
+        # Session for count amount of Words 
+        all_words_count = db_entity.Words.all()
+        total_words = all_words_count.count()
+        self.response.out.write(simplejson.dumps({'total_words':total_words}))
+
 
 class Search(webapp.RequestHandler):
     def get(self):
@@ -42,8 +50,8 @@ class Search(webapp.RequestHandler):
 class Add(webapp.RequestHandler):
     @login_required
     def get(self):
-        self.response.out.write(template.render('add.html',''))
-        
+        pass
+    
     def post(self):
         #self.response.out.write('Hello World')
         login_user = users.get_current_user()
@@ -55,7 +63,7 @@ class Add(webapp.RequestHandler):
             tags = self.request.get("tag").split(',')
             new_tags = map(lambda x:x.strip(), tags)
             try:
-                create_entity = db_entity.Words(key_name='w3',
+                create_entity = db_entity.Words(key_name=str(creator),
                                                 Creator=creator,
                                                 Word=word,
                                                 Define=define,
@@ -70,12 +78,27 @@ class Add(webapp.RequestHandler):
                 self.response.out.write(simplejson.dumps(response))
         else:
             self.redirect(users.create_login_url(self.request.uri))
+
+
+class Edit(webapp.RequestHandler):
+    def get(self):
+        lalala = subprocess.Popen('echo "Hello world!"', shell=True)
+        self.response.out.write(lalala)
+        login_user = users.get_current_user()
+        # str(login_user.nickname())
+        query = db_entity.Words.all().filter('Creator =', login_user.nickname()).order('-Date')
+        self.response.out.write(template.render('edit.html', {'query': query}))        
+        
+    def post(self):
+        pass
+    
                 
                 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
                                       ('/search', Search),
-                                      ('/add', Add)],
+                                      ('/add', Add),
+                                      ('/edit', Edit),],
                                      debug=True)
 
 def main():

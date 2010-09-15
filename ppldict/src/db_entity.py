@@ -6,6 +6,7 @@ Created on Sep 5, 2010
 from google.appengine.ext import db
 
 class Words(db.Model):
+    Date = db.DateTimeProperty()
     Creator = db.StringProperty(required=True)
     Word = db.StringProperty(required=True)
     Define = db.TextProperty(required=True)
