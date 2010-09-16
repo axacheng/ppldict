@@ -6,13 +6,13 @@ Created on Sep 5, 2010
 from google.appengine.ext import db
 
 class Words(db.Model):
-    Date = db.DateTimeProperty()
+    Created = db.DateTimeProperty(auto_now_add=True)
+    Updated = db.DateTimeProperty(auto_now=True)
     Creator = db.StringProperty(required=True)
     Word = db.StringProperty(required=True)
     Define = db.TextProperty(required=True)
     Example = db.TextProperty()
     Tag = db.StringListProperty()
-    Eastablish = db.DateTimeProperty(auto_now_add=True)
 
 class Judgement(db.Model):
     Good = db.IntegerProperty(required=True, default=0)

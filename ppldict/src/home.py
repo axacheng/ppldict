@@ -70,7 +70,6 @@ class Add(webapp.RequestHandler):
                                                 Example=example,
                                                 Tag=new_tags)
                 create_entity.put()
-                #response = {'status':'success', 'message':'新字增加好了'}
                 response = {'status':'success', 'message':'wahaha'}
                 self.response.out.write(simplejson.dumps(response))
             except ValueError:
@@ -81,24 +80,24 @@ class Add(webapp.RequestHandler):
 
 
 class Edit(webapp.RequestHandler):
-    def get(self):
-        lalala = subprocess.Popen('echo "Hello world!"', shell=True)
-        self.response.out.write(lalala)
+    def get(self, key):
         login_user = users.get_current_user()
-        # str(login_user.nickname())
-        query = db_entity.Words.all().filter('Creator =', login_user.nickname()).order('-Date')
+        query = db_entity.Words.all().filter('Creator =', login_user.nickname())
         self.response.out.write(template.render('edit.html', {'query': query}))        
         
-    def post(self):
-        pass
-    
+    def post(self, key):
+        query = db_entity.Words.get(key)
+        query.Define = self.request.get('define')
+        query.Example = self.request.get('example')
+        query.put()
+        self.redirect('/edit/')    
                 
                 
 application = webapp.WSGIApplication(
                                      [('/', MainPage),
                                       ('/search', Search),
                                       ('/add', Add),
-                                      ('/edit', Edit),],
+                                      ('/edit/(.*)', Edit),],
                                      debug=True)
 
 def main():
