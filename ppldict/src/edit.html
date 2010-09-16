@@ -3,12 +3,26 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link type="text/css" rel="stylesheet" href="/stylesheet/main.css" >
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+  <script type="text/javascript" src="/stylesheet/edit.js"></script>
 </head>
 <body>
   {% if query %}
 	   {% for list_query in query %}
-		    Key : <div class="id"> {{ list_query.key }}</div>
-        Word : <div class="word"> {{ list_query.Word }}</div>
+       <div>
+			   <a href="#" class="edit_button" id="{{ list_query.key }}">Edit me</a>
+			 
+			 
+			 <div class="edit_div" id="{{ list_query.key }}">
+					<form action="/edit/{{ list_query.key }}" method="post">
+						 <input type="hidden" name="key" value="{{ list_query.key }}">
+						 <textarea id="define", name="define" rows="10" cols="50" type="text">{{ list_query.Define }}</textarea>
+             <textarea id="example", name="example" rows="10" cols="50" size="60" type="text">{{ list_query.Example }}</textarea>
+             <input id="tag", name="tag" size="30" type="text" value="{{ list_query.Tag }}">
+				     
+						 <input type="submit" value="Done">
+					</form>					
+				</div>
+				</div>
 		 {% endfor %}
 	{% endif %}
 </body>
