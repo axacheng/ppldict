@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  $(document).ready
 
 	
 	//First hide form on add_form, when user clicking 'Add' it will show up
